@@ -1,3 +1,5 @@
+import os
+
 def read_json(path):
    with open(path,"r") as file:
       return json.loads(file.read())
@@ -27,13 +29,13 @@ def write_json(j, path, mini=False):
       else:
          file.write(json.dumps(j, indent=3))
 
-def write_lines(path, lines):
+def write_lines(lines, path):
    setup_path(path)
    with open(path, "w", encoding="utf8") as file:
       for line in lines:
          file.write(line+"\n")
 
-def write_lang(path, pairs):
+def write_lang(pairs, path):
    setup_path(path)
    with open(path, "w", encoding="utf8") as file:
       for k,v in pairs.items():
