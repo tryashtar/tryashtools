@@ -1,7 +1,7 @@
 import os
 
 def read_json(path):
-   with open(path,"r") as file:
+   with open(path, "r") as file:
       return json.loads(file.read())
 
 def setup_path(file):
@@ -35,8 +35,19 @@ def write_lines(lines, path):
       for line in lines:
          file.write(line+"\n")
 
+def read_lines(path):
+   with open(path, "r") as file:
+      return [line.rstrip('\n') for line in file]
+
 def write_lang(pairs, path):
    setup_path(path)
    with open(path, "w", encoding="utf8") as file:
       for k,v in pairs.items():
          file.write(f"{k}={v}\n")
+
+def get_files(folder, recursive=False):
+   for file in os.listdir(folder):
+      yield os.path.join(folder,file)
+
+def extension(filename):
+   return os.path.splitext(filename)[1]
