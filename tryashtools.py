@@ -1,4 +1,5 @@
 import os
+import json
 
 def read_json(path):
    with open(path, "r") as file:
@@ -47,7 +48,32 @@ def write_lang(pairs, path):
 
 def get_files(folder, recursive=False):
    for file in os.listdir(folder):
-      yield os.path.join(folder,file)
+      full=os.path.join(folder,file)
+      if os.path.isfile(full):
+         yield full
+      elif recursive:
+         yield from get_files(full, True)
+
+def get_folders(folder, recursive=False):
+   for file in os.listdir(folder):
+      full=os.path.join(folder,file)
+      if not os.path.isfile(full):
+         yield full
+         if recursive:
+            yield from get_folders(full, True)
 
 def extension(filename):
    return os.path.splitext(filename)[1]
+
+def remove_extension(filename):
+   return os.path.splitext(filename)[0]
+
+def path_list(filename):
+   first,second=os.path.split(filename)
+   if first=="":
+      yield second
+   elif second=="":
+      yield first
+   else:
+      yield from path_list(first)
+      yield second
