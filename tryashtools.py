@@ -1,8 +1,9 @@
 import os
 import json
+import shutil
 
 def read_json(path):
-   with open(path, "r") as file:
+   with open(path, "r", encoding="utf-8") as file:
       return json.loads(file.read())
 
 def setup_path(file):
@@ -22,6 +23,10 @@ def copy_file(filefrom, fileto):
    setup_path(fileto)
    shutil.copyfile(filefrom, fileto)
 
+def move_file(filefrom, fileto):
+   setup_path(fileto)
+   shutil.move(filefrom, fileto)
+
 def write_json(j, path, mini=False):
    setup_path(path)
    with open(path, "w", encoding="utf8") as file:
@@ -36,9 +41,18 @@ def write_lines(lines, path):
       for line in lines:
          file.write(line+"\n")
 
+def write_text(text, path):
+   setup_path(path)
+   with open(path, "w", encoding="utf8") as file:
+      file.write(text)
+
 def read_lines(path):
-   with open(path, "r") as file:
+   with open(path, "r", encoding="utf8") as file:
       return [line.rstrip('\n') for line in file]
+
+def read_text(path):
+   with open(path, "r", encoding="utf8") as file:
+      return file.read()
 
 def write_lang(pairs, path):
    setup_path(path)
@@ -46,9 +60,16 @@ def write_lang(pairs, path):
       for k,v in pairs.items():
          file.write(f"{k}={v}\n")
 
+def get_items(folder, recursive=False):
+   for file in os.listdir(folder):
+      full=os.path.abspath(os.path.join(folder,file))
+      if recursive and os.path.isdir(full):
+         yield from get_items(full, True)
+      yield full
+
 def get_files(folder, recursive=False):
    for file in os.listdir(folder):
-      full=os.path.join(folder,file)
+      full=os.path.abspath(os.path.join(folder,file))
       if os.path.isfile(full):
          yield full
       elif recursive:
@@ -57,10 +78,13 @@ def get_files(folder, recursive=False):
 def get_folders(folder, recursive=False):
    for file in os.listdir(folder):
       full=os.path.join(folder,file)
-      if not os.path.isfile(full):
+      if os.path.isdir(full):
          yield full
          if recursive:
             yield from get_folders(full, True)
+
+def base_name(filename):
+   return remove_extension(os.path.basename(filename))
 
 def extension(filename):
    return os.path.splitext(filename)[1]

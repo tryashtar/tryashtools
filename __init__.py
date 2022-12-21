@@ -1,1 +1,1 @@
-from .tryashtools import read_json, setup_path, delete_folder, delete_file, copy_file, write_json, write_lines, read_lines, write_lang, get_files, get_folders, extension, path_list, remove_extension
+from .tryashtools import *
