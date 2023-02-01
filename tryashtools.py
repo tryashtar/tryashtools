@@ -7,8 +7,8 @@ def read_json(path):
       return json.loads(file.read())
 
 def setup_path(file):
-   folder=os.path.dirname(file)
-   if folder!="" and not os.path.isdir(folder):
+   folder = os.path.dirname(file)
+   if folder != "" and not os.path.isdir(folder):
       os.makedirs(folder)
 
 def delete_folder(folder):
@@ -62,14 +62,14 @@ def write_lang(pairs, path):
 
 def get_items(folder, recursive=False):
    for file in os.listdir(folder):
-      full=os.path.abspath(os.path.join(folder,file))
+      full=os.path.abspath(os.path.join(folder, file))
       if recursive and os.path.isdir(full):
          yield from get_items(full, True)
       yield full
 
 def get_files(folder, recursive=False):
    for file in os.listdir(folder):
-      full=os.path.abspath(os.path.join(folder,file))
+      full = os.path.abspath(os.path.join(folder, file))
       if os.path.isfile(full):
          yield full
       elif recursive:
@@ -77,7 +77,7 @@ def get_files(folder, recursive=False):
 
 def get_folders(folder, recursive=False):
    for file in os.listdir(folder):
-      full=os.path.join(folder,file)
+      full = os.path.join(folder,file)
       if os.path.isdir(full):
          yield full
          if recursive:
@@ -94,9 +94,9 @@ def remove_extension(filename):
 
 def path_list(filename):
    first,second=os.path.split(filename)
-   if first=="":
+   if first == "":
       yield second
-   elif second=="":
+   elif second == "":
       yield first
    else:
       yield from path_list(first)
