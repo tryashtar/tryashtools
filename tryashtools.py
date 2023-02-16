@@ -93,7 +93,7 @@ def remove_extension(filename):
    return os.path.splitext(filename)[0]
 
 def path_list(filename):
-   first,second=os.path.split(filename)
+   first, second = os.path.split(filename)
    if first == "":
       yield second
    elif second == "":
