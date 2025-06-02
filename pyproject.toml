@@ -1,3 +1,6 @@
 [project]
 name = "tryashtools"
 version = "0.0.1"
+dependencies = [
+   "pyyaml"
+]
